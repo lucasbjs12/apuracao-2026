@@ -1,12 +1,13 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  cacheComponents: true,
-  partialPrefetching: true,
+  // Site 100% estático (pasta "out"), hospedado na Cloudflare.
+  // Os resultados são buscados pelo navegador direto nos arquivos públicos do TSE.
+  output: "export",
+  trailingSlash: true,
   images: {
-    // Fotos oficiais dos candidatos publicadas pelo TSE.
-    remotePatterns: [{ protocol: "https", hostname: "resultados.tse.jus.br", pathname: "/oficial/ele2026/**" }],
-    minimumCacheTTL: 86400,
+    // Sem servidor de otimização: as fotos vêm direto do TSE.
+    unoptimized: true,
   },
   turbopack: {
     rules: {

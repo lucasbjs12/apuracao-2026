@@ -2,37 +2,44 @@
 
 import { useSyncExternalStore } from "react";
 import useSWR from "swr";
-import { REFRESH_MS } from "@/config/site";
-import type { Mapa, Resultado } from "@/lib/tse/types";
+import { REFRESH_MS, type Cargo } from "@/config/site";
+import { carregarMapaPresidente, carregarResultado } from "@/lib/tse/carregar";
 
-const fetcher = async (url: string) => {
-  const res = await fetch(url);
-  if (!res.ok) throw new Error((await res.json().catch(() => null))?.erro ?? "Erro ao carregar");
-  return res.json();
-};
+// Simulação só existe em builds com NEXT_PUBLIC_ALLOW_DEMO=1 (nunca no site de produção).
+const DEMO_PERMITIDO = process.env.NEXT_PUBLIC_ALLOW_DEMO === "1";
 
 // Lê ?demo=1 sem precisar de Suspense (useSearchParams exigiria).
 const assinar = () => () => {};
 export function useDemo() {
   return useSyncExternalStore(
     assinar,
-    () => new URLSearchParams(window.location.search).get("demo") === "1",
+    () => DEMO_PERMITIDO && new URLSearchParams(window.location.search).get("demo") === "1",
     () => false,
   );
 }
 
-function useApi<T>(path: string | null) {
+const opcoes = (demo: boolean, intervalo: number) => ({
+  refreshInterval: demo ? 5_000 : intervalo,
+  revalidateOnFocus: true,
+  keepPreviousData: true,
+  dedupingInterval: 5_000,
+  errorRetryInterval: 10_000,
+});
+
+// Se o TSE falhar, o SWR mantém o último dado válido; marcamos como "desatualizado".
+export function useResultado(cargo: Cargo, uf: string, turno: 1 | 2 = 2) {
   const demo = useDemo();
-  const url = path ? `${path}${demo ? (path.includes("?") ? "&" : "?") + "demo=1" : ""}` : null;
-  return useSWR<T>(url, fetcher, {
-    refreshInterval: demo ? 5_000 : REFRESH_MS,
-    revalidateOnFocus: true,
-    keepPreviousData: true,
-    dedupingInterval: 5_000,
-  });
+  const swr = useSWR(
+    ["resultado", cargo, uf, turno, demo] as const,
+    ([, c, u, t, d]) => carregarResultado(c, u, { turno: t, demo: d }),
+    opcoes(demo, REFRESH_MS),
+  );
+  const data = swr.data && swr.error ? { ...swr.data, desatualizado: true } : swr.data;
+  return { ...swr, data };
 }
 
-export const useResultado = (cargo: "presidente" | "governador", uf: string, turno: 1 | 2 = 2) =>
-  useApi<Resultado>(`/api/resultado/${cargo}/${uf}${turno === 1 ? "?turno=1" : ""}`);
-
-export const useMapa = () => useApi<Mapa>("/api/mapa");
+// O mapa baixa um arquivo por estado (28), então atualiza com menos frequência.
+export function useMapa() {
+  const demo = useDemo();
+  return useSWR(["mapa", demo] as const, ([, d]) => carregarMapaPresidente({ demo: d }), opcoes(demo, 60_000));
+}

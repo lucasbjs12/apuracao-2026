@@ -6,6 +6,9 @@ import { Placar } from "@/components/placar";
 import { Anuncio } from "@/components/anuncio";
 import { Compartilhar } from "@/components/compartilhar";
 
+// Só os 6 estados com 2º turno existem (o site é estático).
+export const dynamicParams = false;
+
 export function generateStaticParams() {
   return UFS_GOVERNADOR_2T.map((uf) => ({ uf }));
 }

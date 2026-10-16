@@ -2,7 +2,7 @@
 
 import { useResultado } from "@/lib/hooks";
 
-// Aparece só quando o servidor realmente devolveu dados simulados (ALLOW_DEMO=1 e ?demo=1).
+// Aparece só quando os dados exibidos são simulados (build com NEXT_PUBLIC_ALLOW_DEMO=1 e ?demo=1).
 export function AvisoSimulacao() {
   const { data } = useResultado("presidente", "br");
   if (!data?.simulacao) return null;

@@ -1,16 +1,9 @@
-import { cacheLife } from "next/cache";
-import { getResultado } from "@/lib/tse/fetch";
+import { carregarResultado } from "@/lib/tse/carregar";
 import { fmtNum, fmtPct, titulo } from "@/lib/format";
 
-// Resultado final do 1º turno (dado fechado, pode ficar em cache por dias).
-async function dadosPrimeiroTurno() {
-  "use cache";
-  cacheLife("days");
-  return getResultado("presidente", "br", { turno: 1 });
-}
-
+// Resultado final do 1º turno: dado fechado, buscado uma vez no build e gravado no HTML.
 export async function PrimeiroTurno() {
-  const r = await dadosPrimeiroTurno().catch(() => null);
+  const r = await carregarResultado("presidente", "br", { turno: 1 }).catch(() => null);
   if (!r) return null;
   const top = r.candidatos.slice(0, 5);
   const max = top[0]?.pct || 1;
