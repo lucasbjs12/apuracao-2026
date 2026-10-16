@@ -1,26 +1,110 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  color-scheme: light;
+  --bg: #eef0f8;
+  --surface: #ffffff;
+  --surface-2: #f1f2f9;
+  --border: #dfe2ef;
+  --text: #0b0d1f;
+  --text-2: #4a4e6a;
+  --muted: #767a95;
+  --cand-0: #00a99d;
+  --cand-1: #8b45f5;
+  --vazio: #d5d8e6;
+  --ao-vivo: #ff3b4a;
+  --ouro: #ffc21a;
+  --noite-1: #0b0f2e;
+  --noite-2: #241062;
+  --sombra: 0 1px 2px rgb(16 20 60 / 0.06), 0 8px 24px -8px rgb(16 20 60 / 0.12);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    color-scheme: dark;
+    --bg: #070a1c;
+    --surface: #11152e;
+    --surface-2: #1a1f3d;
+    --border: #262c52;
+    --text: #f2f3fb;
+    --text-2: #b9bcd6;
+    --muted: #8488a8;
+    --cand-0: #00a99d;
+    --cand-1: #9050ff;
+    --vazio: #2b3058;
+    --ao-vivo: #ff5763;
+    --ouro: #ffc21a;
+    --noite-1: #050720;
+    --noite-2: #1b0b4d;
+    --sombra: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 24px -8px rgb(0 0 0 / 0.6);
   }
 }
 
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--border);
+  --color-ink: var(--text);
+  --color-ink-2: var(--text-2);
+  --color-muted: var(--muted);
+  --color-cand-0: var(--cand-0);
+  --color-cand-1: var(--cand-1);
+  --color-vazio: var(--vazio);
+  --color-ao-vivo: var(--ao-vivo);
+  --color-ouro: var(--ouro);
+  --shadow-cartao: var(--sombra);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Fundo "noite de eleição": azul-marinho com brilhos das duas cores dos candidatos, em equilíbrio. */
+.fundo-noite {
+  background:
+    radial-gradient(60% 90% at 0% 0%, color-mix(in oklab, var(--cand-0) 45%, transparent), transparent 70%),
+    radial-gradient(60% 90% at 100% 100%, color-mix(in oklab, var(--cand-1) 55%, transparent), transparent 70%),
+    linear-gradient(135deg, var(--noite-1), var(--noite-2));
+  color: #fff;
+}
+
+.barra-ouro {
+  background: linear-gradient(90deg, #ffb000, #ffd84d);
+}
+
+/* Esconde a barra de rolagem do carrossel sem impedir a rolagem. */
+.sem-barra { scrollbar-width: none; }
+.sem-barra::-webkit-scrollbar { display: none; }
+
+@keyframes pulso {
+  0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--ao-vivo) 70%, transparent); }
+  70% { box-shadow: 0 0 0 8px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+.pulso { animation: pulso 1.6s infinite; }
+
+@keyframes brilho {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(100%); }
+}
+.brilho::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.45), transparent);
+  animation: brilho 2.2s infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulso, .brilho::after { animation: none; }
+  * { transition: none !important; }
 }
