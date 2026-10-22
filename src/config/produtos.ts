@@ -28,6 +28,7 @@ export const PRODUTOS: Produto[] = [
     preco: 59.9,
     emoji: "👕",
     destaque: "Mais pedido",
+    link: "https://mpago.la/1LBUHQS",
   },
   {
     id: "adesivos-eu-votei",
@@ -35,6 +36,7 @@ export const PRODUTOS: Produto[] = [
     descricao: "5 adesivos de vinil para notebook, celular ou garrafa.",
     preco: 14.9,
     emoji: "🏷️",
+    link: "https://mpago.la/1ZhpT4b",
   },
   {
     id: "caneca-apuracao",
@@ -42,6 +44,7 @@ export const PRODUTOS: Produto[] = [
     descricao: "Porcelana 325 ml, para acompanhar a contagem até o fim.",
     preco: 44.9,
     emoji: "☕",
+    link: "https://mpago.la/1ibbYq1",
   },
   {
     id: "boné-democracia",
@@ -49,6 +52,7 @@ export const PRODUTOS: Produto[] = [
     descricao: "Aba curva, ajuste traseiro. Bordado.",
     preco: 49.9,
     emoji: "🧢",
+    link: "https://mpago.la/21jMin9",
   },
 ];
 
