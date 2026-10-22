@@ -67,6 +67,7 @@ const ITENS = [
   { href: "/#placar", rotulo: "Presidente", icone: "M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.9L12 3z" },
   { href: "/#mapa", rotulo: "Estados", icone: "M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z" },
   { href: "/#governadores", rotulo: "Governador", icone: "M3 21h18M5 21V10l7-5 7 5v11M9 21v-6h6v6" },
+  { href: "/produtos", rotulo: "Loja", icone: "M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4zM3 6h18M16 10a4 4 0 0 1-8 0" },
   { href: "/como-funciona", rotulo: "Entenda", icone: "M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zM12 16v-4M12 8h.01" },
 ];
 
@@ -75,7 +76,7 @@ export function MenuInferior() {
   const caminho = usePathname();
   return (
     <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-surface/90 pb-[env(safe-area-inset-bottom)] backdrop-blur-lg md:hidden">
-      <ul className="grid grid-cols-4">
+      <ul className="grid grid-cols-5">
         {ITENS.map((i) => {
           const ativo = i.href.startsWith("/#") ? caminho === "/" && i.href === "/#placar" : caminho.startsWith(i.href);
           return (

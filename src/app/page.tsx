@@ -8,6 +8,7 @@ import { PrimeiroTurno } from "@/components/primeiro-turno";
 import { Anuncio } from "@/components/anuncio";
 import { Compartilhar } from "@/components/compartilhar";
 import { PlacarFixo } from "@/components/celular";
+import { FaixaLoja } from "@/components/faixa-loja";
 
 export default function Home() {
   return (
@@ -47,6 +48,8 @@ export default function Home() {
       <div id="governadores" className="scroll-mt-20">
         <Governadores />
       </div>
+
+      <FaixaLoja />
 
       <Anuncio posicao="meio" />
 

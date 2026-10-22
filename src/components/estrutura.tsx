@@ -15,6 +15,7 @@ export function Cabecalho() {
           <Link href="/#mapa" className="rounded-full px-3 py-1.5 text-white/80 hover:bg-white/10 hover:text-white">Mapa</Link>
           <Link href="/#governadores" className="rounded-full px-3 py-1.5 text-white/80 hover:bg-white/10 hover:text-white">Governadores</Link>
           <Link href="/como-funciona" className="rounded-full px-3 py-1.5 text-white/80 hover:bg-white/10 hover:text-white">Como funciona</Link>
+          <Link href="/produtos" className="rounded-full bg-ouro px-3 py-1.5 font-bold text-black hover:brightness-105">Loja</Link>
         </nav>
       </div>
     </header>
